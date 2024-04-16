@@ -1,9 +1,7 @@
 package com.cainfo.store.services;
 
 import com.cainfo.store.dto.ColorDTO;
-import com.cainfo.store.models.Color;
 import com.cainfo.store.repositories.ColorRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
