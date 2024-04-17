@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class ColorService {
+    private final String colorNotFoundMessage = "Color not found";
     @Autowired
     ColorRepository repository;
 
@@ -37,7 +38,7 @@ public class ColorService {
     public String deleteColor(int id) {
         var color = repository.findById(id);
         if (color.isEmpty()) {
-            return "Color not found";
+            return colorNotFoundMessage;
         }
 
         try {

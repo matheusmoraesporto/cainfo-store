@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class PickUpLocationService {
+    private final String pickUpLocationNotFoundMessage = "Pick up location not found";
     @Autowired
     PickUpLocationRepository repository;
 
@@ -16,7 +17,7 @@ public class PickUpLocationService {
         var locations = repository.findAll();
         return locations
                 .stream()
-                .map(c -> new PickUpLocationDTO(c.getName()))
+                .map(p -> new PickUpLocationDTO(p.getName()))
                 .toList();
     }
 
@@ -37,7 +38,7 @@ public class PickUpLocationService {
     public String deletePickUpLocation(int id) {
         var location = repository.findById(id);
         if (location.isEmpty()) {
-            return "Pick up location not found";
+            return pickUpLocationNotFoundMessage;
         }
 
         try {
