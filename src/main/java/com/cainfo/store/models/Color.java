@@ -13,11 +13,22 @@ public class Color {
     @Column(name = "VALUE", nullable = false)
     private String value;
 
+    @Column(name = "HEXADECIMAL", nullable = true)
+    private String hexadecimal;
+
     public String getValue() {
         return value;
     }
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getHexadecimal() {
+        return hexadecimal;
+    }
+
+    public void setHexadecimal(String hexadecimal) {
+        this.hexadecimal = hexadecimal;
     }
 }
