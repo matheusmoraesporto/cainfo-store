@@ -13,8 +13,12 @@ public class Color {
     @Column(name = "VALUE", nullable = false)
     private String value;
 
-    @Column(name = "HEXADECIMAL", nullable = true)
+    @Column(name = "HEXADECIMAL")
     private String hexadecimal;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getValue() {
         return value;

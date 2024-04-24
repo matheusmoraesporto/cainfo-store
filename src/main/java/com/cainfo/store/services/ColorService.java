@@ -17,7 +17,10 @@ public class ColorService {
         var colors = repository.findAll();
         return colors
                 .stream()
-                .map(c -> new ColorDTO(c.getValue(), c.getHexadecimal()))
+                .map(c -> new ColorDTO(
+                        c.getValue(),
+                        c.getHexadecimal(),
+                        c.getId()))
                 .toList();
     }
 
