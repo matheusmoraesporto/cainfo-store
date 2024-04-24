@@ -21,7 +21,9 @@ public class SizeService {
                 .map(s -> new SizeDTO(
                         s.getAcronym(),
                         s.getLength(),
-                        s.getWidth()))
+                        s.getWidth(),
+                        s.getSleeve(),
+                        s.getId()))
                 .toList();
     }
 

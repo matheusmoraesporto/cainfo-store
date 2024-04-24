@@ -19,6 +19,9 @@ public class Size {
     @Column(name = "WIDTH", nullable = false)
     private int width;
 
+    @Column(name = "SLEEVE")
+    private int sleeve;
+
     public int getId() {
         return id;
     }
@@ -49,5 +52,13 @@ public class Size {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public int getSleeve() {
+        return sleeve;
+    }
+
+    public void setSleeve(int sleeve) {
+        this.sleeve = sleeve;
     }
 }
