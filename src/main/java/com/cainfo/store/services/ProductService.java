@@ -2,7 +2,9 @@ package com.cainfo.store.services;
 
 import com.cainfo.store.dto.ColorDTO;
 import com.cainfo.store.dto.ProductDTO;
+import com.cainfo.store.dto.PhotoDTO;
 import com.cainfo.store.dto.SizeDTO;
+import com.cainfo.store.models.Product;
 import com.cainfo.store.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,17 +19,10 @@ public class ProductService {
     ProductRepository repository;
 
     public List<ProductDTO> listAll() {
-        // TODO: Create a query?
         var products = repository.findAll();
         return products
                 .stream()
-                .map(p -> new ProductDTO(
-                        p.getName(),
-                        p.getGenre(),
-                        p.getCourse(),
-                        p.getValue(),
-                        null,
-                        null))
+                .map(this::parseToDTO)
                 .toList();
     }
 
@@ -46,6 +41,12 @@ public class ProductService {
             var pc = color.toProductColor();
             pc.setProduct(newProduct);
             newProduct.getColors().add(pc);
+        }
+
+        for (PhotoDTO photo : dto.photos()) {
+            var pp = photo.toProductPhoto();
+            pp.setProduct(newProduct);
+            newProduct.getPhotos().add(pp);
         }
 
         try {
@@ -71,5 +72,23 @@ public class ProductService {
 
     private boolean productAlreadyExists(String name, String genre, String course) {
         return !repository.findByNameAndGenreAndCourse(name, genre, course).isEmpty();
+    }
+
+    private ProductDTO parseToDTO(Product product) {
+        var photosDTO = product
+                .getPhotos()
+                .stream()
+                .map(p -> new PhotoDTO(p.getUrl(), p.isThumb()))
+                .toList();
+
+        return new ProductDTO(
+                product.getName(),
+                product.getGenre(),
+                product.getCourse(),
+                product.getValue(),
+                null,
+                null,
+                photosDTO
+            );
     }
 }

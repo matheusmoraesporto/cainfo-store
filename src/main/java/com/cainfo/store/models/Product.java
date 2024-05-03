@@ -37,9 +37,15 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
     private List<ProductColor> colors;
 
+    @NotNull
+    @NotEmpty
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
+    private List<ProductPhoto> photos;
+
     public Product() {
         this.sizes = new ArrayList<>();
         this.colors = new ArrayList<>();
+        this.photos = new ArrayList<>();
     }
 
     public int getId() {
@@ -96,6 +102,14 @@ public class Product {
 
     public void setColors(List<ProductColor> colors) {
         this.colors = colors;
+    }
+
+    public List<ProductPhoto> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<ProductPhoto> photos) {
+        this.photos = photos;
     }
 }
 

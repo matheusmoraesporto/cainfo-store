@@ -1,7 +1,6 @@
 package com.cainfo.store.dto;
 
 import com.cainfo.store.models.Product;
-import jakarta.annotation.Nullable;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -12,7 +11,8 @@ public record ProductDTO(
         String course,
         double value,
         List<SizeDTO> sizes,
-        List<ColorDTO> colors
+        List<ColorDTO> colors,
+        List<PhotoDTO> photos
 ) {
     public Product toProduct() {
         var product = new Product();
