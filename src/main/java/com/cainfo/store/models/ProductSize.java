@@ -8,7 +8,7 @@ public class ProductSize {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @Column(name = "ID_SIZE", nullable = false)
     private int idSize;

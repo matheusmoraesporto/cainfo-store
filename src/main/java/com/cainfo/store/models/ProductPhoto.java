@@ -8,7 +8,7 @@ public class ProductPhoto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @Column(name = "URL", nullable = false)
     private String url;

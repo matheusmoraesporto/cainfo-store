@@ -8,7 +8,7 @@ public class ProductColor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @Column(name = "ID_COLOR", nullable = false)
     private int idColor;

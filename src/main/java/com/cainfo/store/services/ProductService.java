@@ -81,11 +81,25 @@ public class ProductService {
                 .map(p -> new PhotoDTO(p.getUrl(), p.isThumb()))
                 .toList();
 
+        var thumbPhoto = "";
+        for (PhotoDTO photo : photosDTO) {
+            if (photo.thumb()) {
+                thumbPhoto = photo.url();
+                break;
+            }
+        }
+
+        if (thumbPhoto.isEmpty() && !photosDTO.isEmpty()) {
+            thumbPhoto = photosDTO.get(0).url();
+        }
+
         return new ProductDTO(
+                product.getId(),
                 product.getName(),
                 product.getGenre(),
                 product.getCourse(),
                 product.getValue(),
+                thumbPhoto,
                 null,
                 null,
                 photosDTO
