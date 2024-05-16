@@ -2,9 +2,7 @@ package com.cainfo.store.dto;
 
 import com.cainfo.store.models.Color;
 import com.cainfo.store.models.ProductColor;
-import com.cainfo.store.models.ProductSize;
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.BeanUtils;
 
 public record ColorDTO(

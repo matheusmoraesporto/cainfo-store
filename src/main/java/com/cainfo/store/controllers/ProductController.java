@@ -24,6 +24,14 @@ public class ProductController {
                 .body(service.listAll());
     }
 
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductDTO> getProductById(
+            @PathVariable("id") int id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.getProductById(id));
+    }
+
     @PostMapping("/product")
     public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO) {
         var errorMessage = service.addProduct(productDTO);

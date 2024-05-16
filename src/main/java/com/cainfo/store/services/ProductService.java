@@ -1,11 +1,14 @@
 package com.cainfo.store.services;
 
+import com.cainfo.store.exceptions.ProductNotFoundException;
 import com.cainfo.store.dto.ColorDTO;
 import com.cainfo.store.dto.ProductDTO;
 import com.cainfo.store.dto.PhotoDTO;
 import com.cainfo.store.dto.SizeDTO;
 import com.cainfo.store.models.Product;
+import com.cainfo.store.repositories.ProductColorRepository;
 import com.cainfo.store.repositories.ProductRepository;
+import com.cainfo.store.repositories.ProductSizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +19,28 @@ public class ProductService {
     private final String duplicatedProductMessage = "Product already exists!";
     private final String productNotFoundMessage = "Product not found";
     @Autowired
-    ProductRepository repository;
+    ProductRepository productRepository;
+    @Autowired
+    ProductColorRepository productColorRepository;
+    @Autowired
+    ProductSizeRepository productSizeRepository;
 
     public List<ProductDTO> listAll() {
-        var products = repository.findAll();
+        var products = productRepository.findAll();
         return products
                 .stream()
-                .map(this::parseToDTO)
+                .map(p -> parseToDTO(p, null, null))
                 .toList();
+    }
+
+    public ProductDTO getProductById(int id) {
+        var sizes = productSizeRepository.listByProduct(id);
+        var colors = productColorRepository.listByProduct(id);
+        var productEntity = productRepository.findById(id);
+        if (productEntity.isEmpty()) {
+            throw new ProductNotFoundException(productNotFoundMessage);
+        }
+        return parseToDTO(productEntity.get(), sizes, colors);
     }
 
     public String addProduct(ProductDTO dto) {
@@ -50,7 +67,7 @@ public class ProductService {
         }
 
         try {
-            repository.save(newProduct);
+            productRepository.save(newProduct);
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -58,12 +75,12 @@ public class ProductService {
     }
 
     public String deleteProduct(int id) {
-        var product = repository.findById(id);
+        var product = productRepository.findById(id);
         if (product.isEmpty())
             return productNotFoundMessage;
 
         try {
-            repository.delete(product.get());
+            productRepository.delete(product.get());
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -71,10 +88,12 @@ public class ProductService {
     }
 
     private boolean productAlreadyExists(String name, String genre, String course) {
-        return !repository.findByNameAndGenreAndCourse(name, genre, course).isEmpty();
+        return productRepository
+                .findByNameAndGenreAndCourse(name, genre, course)
+                .isPresent();
     }
 
-    private ProductDTO parseToDTO(Product product) {
+    private ProductDTO parseToDTO(Product product, List<SizeDTO> sizes, List<ColorDTO> colors) {
         var photosDTO = product
                 .getPhotos()
                 .stream()
@@ -100,8 +119,8 @@ public class ProductService {
                 product.getCourse(),
                 product.getValue(),
                 thumbPhoto,
-                null,
-                null,
+                sizes,
+                colors,
                 photosDTO
             );
     }
